@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email', 42);
             $table->string('password', 255);
             $table->boolean('prestataire');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
