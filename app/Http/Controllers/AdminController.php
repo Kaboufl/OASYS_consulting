@@ -15,13 +15,7 @@ class AdminController extends Controller
     //
 
     public function index() {
-        $admin = Admin::where('id', 1)->first();
-
-        $intervenant = $admin->profile;
-
-        //dd($intervenant->nom);
-
-        return view('admin.index', ['title' => 'Formulaire Admin']);
+        return view('admin.dashboard');
     }
 
     public function store(Request $request) {
