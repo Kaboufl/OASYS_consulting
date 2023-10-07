@@ -14,7 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans min-h-screen w-full px-3 antialiased bg-gradient-to-br from-gray-900 via-black to-gray-800 lg:px-6" 
+    <body class="font-sans min-h-screen w-full antialiased bg-gradient-to-br from-gray-900 via-black to-gray-800" 
     x-init="
     window.toast = function(message, options = {}){
         let description = '';
