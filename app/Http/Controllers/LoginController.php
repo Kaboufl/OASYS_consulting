@@ -11,10 +11,15 @@ use App\Models\Admin;
 class LoginController extends Controller
 {
     public function login(Request $request) {
+
         $email = $request->email;
         $password = $request->password;
 
-        $attempt = Auth::attempt(compact('email', 'password'));
+        $attempt = Auth::attempt(compact('email', 'password'), $request->rememberMe);
+
+        if (Auth::user()->admin) {
+            return redirect()->route('admin.dashboard');
+        }
 
         $attempt ? $response = 'ok' : $response = 'ko';
 
