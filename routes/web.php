@@ -23,9 +23,16 @@ Route::view('/', 'home')->name('home');
 Route::view('/projets', 'projets')->name('projets');
 Route::view('/equipe', 'equipe')->name('equipe');
 
-Route::middleware(['auth', 'is-admin'])->prefix('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index']);
-    Route::post('/', [AdminController::class, 'store']);
+Route::name('admin.')
+->middleware(['auth', 'is-admin'])
+->prefix('admin')
+->group(function () {
+
+    Route::get('/', function () {
+        return redirect()->route('admin.dashboard');
+    });
+
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 });
 
 
@@ -40,4 +47,4 @@ Route::get('test', function () {
     dd(auth()->user()->admin);
 });
 
-Route::get('logout', function () {Auth::logout();return redirect('/');});
+Route::get('logout', function () {Auth::logout();return redirect('/');})->name('logout');
