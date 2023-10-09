@@ -17,13 +17,16 @@ class LoginController extends Controller
 
         $attempt = Auth::attempt(compact('email', 'password'), $request->rememberMe);
 
-        if (Auth::user()->admin) {
-            return redirect()->route('admin.dashboard');
+        if($attempt) {
+            if (Auth::user()->admin) {
+                return redirect()->route('admin.dashboard');
+            }
+
+            
+
         }
 
-        $attempt ? $response = 'ok' : $response = 'ko';
-
-        return response($response);
+        return redirect()->back()->withErrors(['compte' => 'Aucun compte ne correspond aux identifiants renseignés']);
 
     }
 }
