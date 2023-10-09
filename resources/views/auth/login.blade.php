@@ -13,6 +13,13 @@
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                     Se connecter
                 </h1>
+                @if ($errors->any())
+                <ul class="w-full rounded-md p-6 bg-red-200 list-disc space-y-0">
+                    @foreach($errors->all() as $error)
+                    <li class="text-red-700 text-sm">{{ $error }}</li>
+                    @endforeach
+                </ul>
+                @endif
                 <form class="space-y-4 md:space-y-6" method="POST">
                     @csrf
                     <div>
@@ -35,9 +42,6 @@
                         <a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Mot de passe oublié ?</a>
                     </div>
                     <button type="submit" class="w-full text-white bg-gray-800 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">Se connecter</button>
-                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                        Vous n'avez pas encore de compte ? <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">S'inscrire</a>
-                    </p>
                 </form>
             </div>
         </div>
