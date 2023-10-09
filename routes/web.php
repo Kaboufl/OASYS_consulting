@@ -33,6 +33,8 @@ Route::name('admin.')
     });
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
+    Route::put('/clients', [AdminController::class, 'putClient']);
 });
 
 
