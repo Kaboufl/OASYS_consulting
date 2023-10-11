@@ -22,6 +22,8 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
 
+            return response('ok');
+
             
 
         }

@@ -5,6 +5,7 @@
     <script>
         document.body.onload = function() {
         @foreach($errors->all() as $error)
+
             window.dispatchEvent(new CustomEvent('toast-show', { 
                 detail : { 
                     type: 'danger',
@@ -13,6 +14,7 @@
                     position : 'top-center',
                     html: '' 
                 }}));
+
         @endforeach
         };
     </script>
@@ -80,7 +82,6 @@
         <h3 class="font-bold text-2xl">Ajouter un nouveau client</h3>
 
         <form action="" method="POST" class="w-full space-y-4">
-            @method('PUT')
             @csrf
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Raison Sociale</span>

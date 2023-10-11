@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\Intervenant;
 use App\Models\Admin;
+use App\Models\Domaine;
 
 class DatabaseSeeder extends Seeder
 {
@@ -46,6 +47,22 @@ class DatabaseSeeder extends Seeder
         $intervenant->prestataire = false;
 
         $intervenant->save();
+
+        $domaine = new Domaine;
+        $domaine->libelle = "Formation";
+        $domaine->save();
+
+        $domaine = new Domaine;
+        $domaine->libelle = "Systèmes & réseaux";
+        $domaine->save();
+
+        $domaine = new Domaine;
+        $domaine->libelle = "Développement";
+        $domaine->save();
+
+        $domaine = new Domaine;
+        $domaine->libelle = "Infogérance";
+        $domaine->save();
         
     }
 }

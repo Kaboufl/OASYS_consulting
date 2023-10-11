@@ -382,7 +382,7 @@
     </ul>
 </template>
 
-<script defer>
+<script>
     window.toast = function(message, options = {}){
     let description = '';
     let type = 'default';
