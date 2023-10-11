@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prestataires', function (Blueprint $table) {
             $table->id();
-            $table->string('siret', 14)->unique();
+            $table->string('siret', 14);
             $table->string('raison_sociale', 255);
             $table->string('nom', 255);
             $table->string('adresse', 255);

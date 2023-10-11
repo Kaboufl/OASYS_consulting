@@ -6,8 +6,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 
 use App\Models\Intervenant;
+use App\Models\Prestataire;
 use App\Models\Admin;
 use App\Models\Domaine;
+use Database\Factories\PrestatairesFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,6 +24,8 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        Prestataire::factory(2)->create();
 
         $intervenant = new Intervenant;
         

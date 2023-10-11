@@ -18,6 +18,11 @@ class IntervenantFactory extends Factory
     {
         return [
             //
+            'nom' => fake()->lastName(),
+            'prenom' => fake()->firstName(),
+            'email' => fake()->email(),
+            'password' => \Hash::make('test'),
+            'prestataire' => false,
         ];
     }
 }
