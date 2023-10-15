@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('page')
 
-<div class="w-full h-screen grid grid-rows-[auto_1fr] grid-cols-[auto_1fr]">
+<div class="w-full min-h-screen grid grid-rows-[auto_1fr] grid-cols-[auto_1fr]">
 
     @include('partials.back.header')
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
-class ClientsFactory extends Factory
+class ClientFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,7 +19,7 @@ class ClientsFactory extends Factory
         return [
             //
             'raison_sociale' => fake()->company(),
-            'siret' => fake()->randomNumber(14, true),
+            'siret' => fake()->numberBetween(10000000000000, 99999999999999),
             'ville' => fake()->city(),
         ];
     }

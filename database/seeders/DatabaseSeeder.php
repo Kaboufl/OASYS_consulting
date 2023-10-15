@@ -9,6 +9,8 @@ use App\Models\Intervenant;
 use App\Models\Prestataire;
 use App\Models\Admin;
 use App\Models\Domaine;
+use App\Models\Projet;
+use App\Models\Client;
 use Database\Factories\PrestatairesFactory;
 
 class DatabaseSeeder extends Seeder
@@ -25,7 +27,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Prestataire::factory(2)->create();
+        
 
         $intervenant = new Intervenant;
         
@@ -67,6 +69,13 @@ class DatabaseSeeder extends Seeder
         $domaine = new Domaine;
         $domaine->libelle = "Infogérance";
         $domaine->save();
+
+
+        Prestataire::factory(2)->create();
+
+        Client::factory(12)->create();
+
+        Projet::factory(8)->create();
         
     }
 }

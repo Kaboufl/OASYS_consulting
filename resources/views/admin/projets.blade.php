@@ -23,7 +23,7 @@
 
     <div class="h-full p-4 justify-self-stretch bg-gray-400 rounded-md row-start-2 col-start-2">
         <div class="w-full h-fit mb-4 flex flex-row justify-between items-center">
-            <span class="ml-4 font-bold">{{ $clients->total() }} clients</span>
+            <span class="ml-4 font-bold">{{ $projets->total() }} projets</span>
             <button class="flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white ml-auto px-4 py-2" onclick="addClient.showModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -38,40 +38,39 @@
             <table class="min-w-full divide-y divide-neutral-700">
                 <thead>
                     <tr class="text-neutral-500">
-                        <th class="px-5 py-3 text-xs font-medium text-left uppercase">Raison sociale</th>
-                        <th class="px-5 py-3 text-xs font-medium text-left uppercase">N° de SIRET</th>
-                        <th class="px-5 py-3 text-xs font-medium text-left uppercase">Ville</th>
+                        <th class="px-5 py-3 text-xs font-medium text-left uppercase">Libellé</th>
+                        <th class="px-5 py-3 text-xs font-medium text-left uppercase">Domaine</th>
+                        <th class="px-5 py-3 text-xs font-medium text-left uppercase">Statut</th>
                         <th class="px-5 py-3 text-xs font-medium text-right uppercase">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-neutral-200">
-                    @if(empty($clients))
+                    @if(empty($projets))
                     <tr class="text-neutral-800">
                         <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">Aucune donnée</td>
                         <td class="px-5 py-4 text-sm whitespace-nowrap">Aucune donnée</td>
                         <td class="px-5 py-4 text-sm whitespace-nowrap">Aucune donnée</td>
                         <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
-                            <a class="text-blue-600 hover:text-blue-700 hover:cursor-not-allowed">Modifier</a>
+                            <a class="text-blue-600 underline hover:text-blue-700 hover:cursor-not-allowed">Détails</a>
                         </td>
                     </tr>
                     @endif
-                    @foreach($clients as $client)
+                    @foreach($projets as $projet)
                     <tr class="text-neutral-800">
-                        <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $client->raison_sociale }}</td>
-                        <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $client->siret }}</td>
-                        <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $client->ville }}</td>
+                        <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $projet->libelle }}</td>
+                        <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $projet->domaine->libelle }}</td>
+                        <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $projet->statut }}</td>
                         <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
-                            <a class="text-blue-600 hover:text-blue-700" href="#">Modifier</a>
+                            <a class="text-blue-600 underline hover:text-blue-700" href="{{ '/admin/projet/'.$projet->id }}">Détails</a>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
 
-            {{ $clients->links() }}
+            {{ $projets->links() }}
         
-    </div>
-        
+        </div>
     </div>
     
     <dialog id="addClient" class="w-96 h-fit rounded relative overflow-hidden p-8 space-y-4">
@@ -103,4 +102,4 @@
             </div>
         </form>
     </dialog>
-@stop
+@endsection

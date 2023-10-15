@@ -34,6 +34,8 @@ Route::name('admin.')
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
+    Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
+    Route::get('/projet/{projet}', [AdminController::class, 'showProjet'])->name('projet');
     Route::post('/clients', [AdminController::class, 'putClient']);
 });
 

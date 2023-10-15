@@ -14,17 +14,35 @@ use App\Models\Client;
 class AdminController extends Controller
 {
     //
+    public $pagination;
+    public function __construct($pagination = 15) {
+        $this->pagination = $pagination;
+    }
 
     public function index() {
         return view('admin.dashboard');
     }
 
     public function clients() {
-        $clients = Client::get();
+        $clients = Client::paginate($this->pagination);
+
+        $clients->withPath('/admin/clients');
 
         //dd($clients);
 
         return view('admin.clients', compact('clients'));
+    }
+
+    public function projets() {
+        $projets = Projet::paginate($this->pagination);
+
+        $projets->withPath('/admin/projets');
+
+        return view('admin.projets', compact('projets'));
+    }
+
+    public function showProjet(Projet $projet) {
+        return view('fiches.projet', compact('projet'));
     }
 
     public function putClient(Request $request) {

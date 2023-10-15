@@ -14,7 +14,22 @@ return new class extends Migration
         Schema::create('projets', function (Blueprint $table) {
             $table->id();
             $table->string('libelle', 42);
-            $table->string('statut', 42);
+            $table->enum('statut', [
+                "En cours de planification",
+                "En phase de conception",
+                "En cours de développement",
+                "En phase de test",
+                "En cours de déploiement",
+                "En cours d\'optimisation",
+                "Approbation en attente",
+                "En pause temporaire",
+                "En phase de documentation",
+                "En cours de suivi des performances",
+                "En cours de gestion des problèmes",
+                "En phase de maintenance",
+                "En phase de clôture",
+                "En cours de revue client",
+                "En phase de formation" ]);
             $table->float('taux_horaire', 5, 2);
 
             $table->unsignedBigInteger('id_domaine');

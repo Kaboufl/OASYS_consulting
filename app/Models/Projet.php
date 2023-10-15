@@ -16,21 +16,21 @@ class Projet extends Model
 
     public function client(): BelongsTo
     {
-        return $this->belongsTo(client::class, 'id_client');
+        return $this->belongsTo(Client::class, 'id_client');
     }
 
     public function domaine(): BelongsTo
     {
-        return $this->belongsTo(domaine::class, 'domaine');
+        return $this->belongsTo(Domaine::class, 'id_domaine');
     }
 
     public function chefProj(): HasOne
     {
-        return $this->hasOne(chef_projet::class, 'id_chef');
+        return $this->hasOne(Intervenant::class, 'id_chef');
     }
 
     public function etapes(): HasMany
     {
-        return $this->hasMany(etape::class, 'id_projet');
+        return $this->hasMany(Etape::class, 'id_projet');
     }
 }
