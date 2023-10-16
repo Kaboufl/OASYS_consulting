@@ -20,7 +20,7 @@ return new class extends Migration
                 "En cours de développement",
                 "En phase de test",
                 "En cours de déploiement",
-                "En cours d\'optimisation",
+                "Optimisation en cours",
                 "Approbation en attente",
                 "En pause temporaire",
                 "En phase de documentation",
@@ -29,7 +29,7 @@ return new class extends Migration
                 "En phase de maintenance",
                 "En phase de clôture",
                 "En cours de revue client",
-                "En phase de formation" ]);
+                "En phase de formation" ])->nullable();
             $table->float('taux_horaire', 5, 2);
 
             $table->unsignedBigInteger('id_domaine');
