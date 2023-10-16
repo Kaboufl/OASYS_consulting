@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,11 +27,25 @@ class Projet extends Model
 
     public function chefProj(): HasOne
     {
-        return $this->hasOne(Intervenant::class, 'id_chef');
+        return $this->hasOne(Intervenant::class, 'id');
     }
 
     public function etapes(): HasMany
     {
         return $this->hasMany(Etape::class, 'id_projet');
+    }
+
+    public static function getStatuts() {
+        // Instancier le modèle pour en récupérer le nom de la table
+        $instance = new static;
+
+        // Retour des nom de colonnes depuis la BDD
+        $enumStr = DB::select('SHOW COLUMNS FROM '.$instance->getTable().' WHERE Field = "statut"')[0]->Type;
+
+        // Parse la string de retour en objet itérable
+        preg_match_all("/'([^']+)'/", $enumStr, $matches);
+
+        // Retourner le résultat
+        return $matches[1];
     }
 }
