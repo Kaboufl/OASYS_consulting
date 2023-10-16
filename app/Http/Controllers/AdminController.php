@@ -10,12 +10,13 @@ use App\Models\Intervenant;
 use App\Models\Admin;
 use App\Models\Projet;
 use App\Models\Client;
+use App\Models\Domaine;
 
 class AdminController extends Controller
 {
     //
     public $pagination;
-    public function __construct($pagination = 15) {
+    public function __construct($pagination = 10) {
         $this->pagination = $pagination;
     }
 
@@ -38,11 +39,35 @@ class AdminController extends Controller
 
         $projets->withPath('/admin/projets');
 
-        return view('admin.projets', compact('projets'));
+        $domaines = Domaine::all();
+
+        $chefsDispo = Intervenant::select('intervenants.*')->leftJoin('projets', function ($join) {
+            $join->on('intervenants.id', '=', 'projets.id_chef_projet');
+        })->whereNull('projets.id_chef_projet')
+        ->where('prestataire', '0')->get();
+
+        $clients = Client::all();
+
+        $statuts = Projet::getStatuts();
+
+        return view('admin.projets', compact('projets', 'domaines', 'chefsDispo', 'clients', 'statuts'));
+    }
+
+    public function addProjet(Request $request) {
+        dd($request);
     }
 
     public function showProjet(Projet $projet) {
-        return view('fiches.projet', compact('projet'));
+        $chefProjet = $projet->chefProj;
+        $client = $projet->client;
+        $domaine = $projet->domaine;
+        $etapes = $projet->etapes;
+        session(['id_projet' => $projet->id]);
+        return view('fiches.projet', compact('projet', 'chefProjet', 'client', 'domaine', 'etapes'));
+    }
+
+    public function insertEtape(Request $request) {
+
     }
 
     public function putClient(Request $request) {
