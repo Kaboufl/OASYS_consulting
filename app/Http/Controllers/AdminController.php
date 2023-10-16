@@ -54,7 +54,28 @@ class AdminController extends Controller
     }
 
     public function addProjet(Request $request) {
-        dd($request);
+        
+        $validate = $request->validate([
+            'libelle' => 'required',
+            'domaine' => 'required|numeric',
+            'chefProj' => 'required|numeric',
+            'client' => 'required|numeric',
+            'taux_horaire' => 'required|numeric',
+            'statut' => 'nullable|numeric'
+        ]);
+        
+        $projet = new Projet;
+        
+        $projet->libelle = $request->libelle;
+        $projet->id_domaine = $request->domaine;
+        $projet->id_chef_projet = $request->chefProj;
+        $projet->id_client = $request->client;
+        $projet->taux_horaire = $request->taux_horaire;
+        $projet->statut = $request->statut;
+
+        $projet->save();
+
+        return back()->with(['succes' => 'Projet enregistré']);
     }
 
     public function showProjet(Projet $projet) {
