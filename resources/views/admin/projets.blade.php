@@ -72,6 +72,8 @@
         
         </div>
 
+        @dump($errors->all())
+
     </div>
     
     <dialog id="addProjet" class="min-w-96 w-3/4 h-fit rounded relative overflow-hidden p-8 space-y-4">
@@ -395,7 +397,7 @@
             </label>
 
             <label class="inline-block w-full">
-                <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Chef de projet :</span>
+                <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Client :</span>
                 <div x-data="{
                     selectOpen: false,
                     selectedItem: '',
@@ -549,7 +551,7 @@
 
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Taux horaire :</span>
-                <input type="number" name="taux_horaire" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="number" step="0.01" name="taux_horaire" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </label>
 
             <label class="inline-block w-full col-span-2">

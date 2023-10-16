@@ -18,7 +18,9 @@
     <div class="min-w-full h-fit rounded-md border-2 border-neutral-700 bg-neutral-100">
 
         <span class="px-5 mt-2 w-full flex flex-row justify-between items-center">
-            <h5 class="font-black text-2xl text-black">Étapes :</h5>
+            @php($projet->statut ? $statut = $projet->statut : $statut = 'Indéfini')
+            <h4 class="font-bold text-2xl text-cyan-600">Statut : <span class="font-medium">{{ $statut }}</span></h4>
+            <h5 class="ml-5 font-black text-2xl text-black">Étapes :</h5>
             <button class="flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white ml-auto px-4 py-2" onclick="addClient.showModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
