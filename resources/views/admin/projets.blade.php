@@ -33,6 +33,20 @@
             </button>
         </div>
 
+        @if($errors->any())
+        <ul x-data="{ open: false }" x-bind:class="open ? 'hidden' : ''" class="relative border-2 text-red-600 font-semibold border-red-900 rounded-md bg-red-300 min-w-full p-4 mb-2">
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+            <button x-on:click="open = !open" class="absolute top-4 right-4 flex flex-row items-center">
+                <span>Fermer</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>            
+            </button>
+        </ul>
+        @endif
+
         <div class="min-w-full h-fit rounded-md border-2 border-neutral-700 bg-neutral-100">
             
             <table class="min-w-full divide-y divide-neutral-700">
@@ -71,8 +85,6 @@
             {{ $projets->links() }}
         
         </div>
-
-        @dump($errors->all())
 
     </div>
     
