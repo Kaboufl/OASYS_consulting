@@ -35,6 +35,21 @@ class AdminController extends Controller
         return view('admin.clients', compact('clients'));
     }
 
+    /**
+     * Retourne la liste des projets, ainsi que le la liste des intervenants internes ET disponibles pour gérer un projet
+     * 
+     * Requête SQL originale :
+     * 
+     * SELECT intervenants.* 
+     * FROM oasys_consulting.intervenants
+     * LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
+     * WHERE projets.id_chef_projet IS NULL
+     * AND intervenants.prestataire = FALSE;
+     * 
+     * 
+     *
+     * @return void
+     */
     public function projets() {
         $projets = Projet::paginate($this->pagination);
 
@@ -87,11 +102,35 @@ class AdminController extends Controller
         session(['id_projet' => $projet->id]);
         return view('fiches.projet', compact('projet', 'chefProjet', 'client', 'domaine', 'etapes'));
     }
-
+    /**
+     * Retourne de détail d'une étape
+     * 
+     * La commande SQL originale pour retourner les intervenants non administrateurs et non-attribués pour l'ajout d'une intervention
+     * 
+     * SELECT intervenants.* 
+     * FROM oasys_consulting.intervenants
+     * LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
+     * LEFT JOIN oasys_consulting.admins ON intervenants.id = admins.id_intervenant
+     * WHERE projets.id_chef_projet IS NULL
+     * AND admins.id_intervenant IS NULL;
+     *
+     * @param Projet $projet
+     * @param Etape $etape
+     * @return void
+     */
     public function showEtape(Projet $projet, Etape $etape) {
         //dd($projet, $etape);
+        $interventions = $etape->interventions()->get();
 
-        return view('fiches.etape', compact('projet', 'etape'));
+        $intervenantsDispo = Intervenant::select('intervenants.*')
+        ->leftJoin('projets', 'intervenants.id', '=', 'projets.id_chef_projet')
+        ->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
+        ->whereNull('projets.id_chef_projet')
+        ->whereNull('admins.id_intervenant')->get();
+
+        //dd($test);
+
+        return view('fiches.etape', compact('projet', 'etape', 'interventions', 'intervenantsDispo'));
     }
 
     public function addEtape(Request $request, Projet $projet) {
