@@ -16,4 +16,9 @@ class Intervenant extends Authenticatable
     {
         return $this->belongsTo(Admin::class, 'id');
     }
+
+    public function intervention(): BelongsTo
+    {
+        return $this->belongsTo(Intervention::class, 'id');
+    }
 }
