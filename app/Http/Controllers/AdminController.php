@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 
 use App\Models\Intervenant;
 use App\Models\Admin;
+use App\Models\Etape;
 use App\Models\Projet;
 use App\Models\Client;
 use App\Models\Domaine;
@@ -87,8 +88,25 @@ class AdminController extends Controller
         return view('fiches.projet', compact('projet', 'chefProjet', 'client', 'domaine', 'etapes'));
     }
 
-    public function insertEtape(Request $request) {
+    public function showEtape(Projet $projet, Etape $etape) {
+        //dd($projet, $etape);
 
+        return view('fiches.etape', compact('projet', 'etape'));
+    }
+
+    public function addEtape(Request $request, Projet $projet) {
+        $request->validate([
+            'libelle' => 'required|min:3'
+        ]);
+
+        $etape = new Etape;
+        $etape->libelle = $request->libelle;
+        $etape->id_projet = $projet->id;
+
+        $etape->save();
+
+
+        dd($etape);
     }
 
     public function putClient(Request $request) {
