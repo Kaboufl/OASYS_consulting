@@ -110,8 +110,10 @@ class AdminController extends Controller
      * SELECT intervenants.* 
      * FROM oasys_consulting.intervenants
      * LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
+     * LEFT JOIN oasys_consulting.interventions ON intervenants.id = interventions.id_intervenant
      * LEFT JOIN oasys_consulting.admins ON intervenants.id = admins.id_intervenant
      * WHERE projets.id_chef_projet IS NULL
+     * AND interventions.id_intervenant IS NULL;
      * AND admins.id_intervenant IS NULL;
      *
      * @param Projet $projet
@@ -125,6 +127,7 @@ class AdminController extends Controller
         $intervenantsDispo = Intervenant::select('intervenants.*')
         ->leftJoin('projets', 'intervenants.id', '=', 'projets.id_chef_projet')
         ->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
+        ->leftJoin('interventions', 'intervenants.id', '=', 'interventions.id_intervenant')
         ->whereNull('projets.id_chef_projet')
         ->whereNull('admins.id_intervenant')->get();
 
@@ -146,6 +149,17 @@ class AdminController extends Controller
 
 
         dd($etape);
+    }
+
+    public function addIntervention(Request $request)
+    {
+        $request->validate([
+            'libelle' => 'required|min:3',
+            'date' => 'required|date',
+            'debut' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/',
+            'fin' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/'
+        ]);
+        dd($request);
     }
 
     public function putClient(Request $request) {
