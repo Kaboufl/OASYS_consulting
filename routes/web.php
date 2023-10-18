@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 
 use App\Models\Admin;
 use App\Models\Intervenant;
+use App\Models\Intervention;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +39,15 @@ Route::name('admin.')
     Route::post('/projets', [AdminController::class, 'addProjet']);
     Route::name('projet.')->prefix('/projet')->group(function () {
         Route::get('/{projet}', [AdminController::class, 'showProjet'])->name('projet');
-        Route::get('/{projet}/etape/{etape}', [AdminController::class, 'showEtape'])->name('etape');
-        Route::post('/{projet}/etape/ajouter', [AdminController::class, 'addEtape'])->name('addEtape');
+
+        Route::name('etape.')->prefix('{projet}/etape')->group(function () {
+            Route::get('/{etape}', [AdminController::class, 'showEtape'])->name('etape');
+            Route::post('/ajouter', [AdminController::class, 'addEtape'])->name('add');
+
+            Route::name('intervention.')->prefix('/intervention')->group(function () {
+                Route::post('/ajouter', [AdminController::class, 'addIntervention'])->name('add');
+            });
+        });
     });
     Route::post('/clients', [AdminController::class, 'putClient']);
 });
@@ -52,8 +60,8 @@ Route::prefix('login')->group(function () {
 
 
 Route::get('test', function () {
-    $intervenant = Intervenant::find(auth()->user()->id);
-    dd(auth()->user()->admin);
+    $intervenants = Intervention::all();
+    dd($intervenants);
 });
 
 Route::get('logout', function () {Auth::logout();return redirect('/');})->name('logout');
