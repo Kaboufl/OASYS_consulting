@@ -12,6 +12,6 @@ class Intervention extends Model
 
     public function intervenant(): HasOne
     {
-        return $this->hasOne(Intervenant::class, 'id');
+        return $this->hasOne(Intervenant::class, 'id', 'id_intervenant');
     }
 }
