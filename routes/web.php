@@ -36,9 +36,10 @@ Route::name('admin.')
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
     Route::post('/projets', [AdminController::class, 'addProjet']);
-    Route::prefix('/projet')->group(function () {
+    Route::name('projet.')->prefix('/projet')->group(function () {
         Route::get('/{projet}', [AdminController::class, 'showProjet'])->name('projet');
         Route::get('/{projet}/etape/{etape}', [AdminController::class, 'showEtape'])->name('etape');
+        Route::post('/{projet}/etape/ajouter', [AdminController::class, 'addEtape'])->name('addEtape');
     });
     Route::post('/clients', [AdminController::class, 'putClient']);
 });
