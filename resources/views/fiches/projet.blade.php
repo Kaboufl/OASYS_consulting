@@ -21,7 +21,7 @@
             @php($projet->statut ? $statut = $projet->statut : $statut = 'Indéfini')
             <h4 class="font-bold text-2xl text-cyan-600">Statut : <span class="font-medium">{{ $statut }}</span></h4>
             <h5 class="ml-5 font-black text-2xl text-black">Étapes :</h5>
-            <button class="flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white ml-auto px-4 py-2" onclick="addClient.showModal()">
+            <button class="flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white ml-auto px-4 py-2" onclick="addStep.showModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -35,30 +35,56 @@
             <thead>
                 <tr class="text-neutral-500">
                     <th class="px-5 py-3 text-xs font-medium text-left uppercase">Libellé</th>
-                    <th class="px-5 py-3 text-xs font-medium text-left uppercase">Domaine</th>
-                    <th class="px-5 py-3 text-xs font-medium text-left uppercase">Statut</th>
                     <th class="px-5 py-3 text-xs font-medium text-right uppercase">Action</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-neutral-200">
-                <tr class="text-neutral-800">
-                    <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">Aucune donnée</td>
-                    <td class="px-5 py-4 text-sm whitespace-nowrap">Aucune donnée</td>
-                    <td class="px-5 py-4 text-sm whitespace-nowrap">Aucune donnée</td>
-                    <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
-                        <a class="text-blue-600 underline hover:text-blue-700 hover:cursor-not-allowed">Détails</a>
-                    </td>
-                </tr>
+                @if(!$etapes->count() > 0)
+                    <tr class="text-neutral-800">
+                        <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">Aucune donnée</td>
+                        <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
+                            <a class="text-blue-600 underline hover:text-blue-700 hover:cursor-not-allowed">Détails</a>
+                        </td>
+                    </tr>
+                @else
+                    @foreach($etapes as $etape)
+                        <tr class="text-neutral-800">
+                            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $etape->libelle }}</td>
+                            <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
+                                <a href="{{ route('admin.etape', ['projet' => $projet->id, 'etape' => $etape->id]) }}" class="text-blue-600 underline hover:text-blue-700">Détails</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
             </tbody>
         </table>
 
     </div>
 
-    @dump($projet)
-    
+    </div>
 </div>
 
-    
-</div>
+<dialog id="addStep" class="min-w-96 w-3/4 h-fit rounded relative overflow-hidden p-8 space-y-4">
+    <button onclick="addStep.close()" class="absolute right-5 top-5 p-2 rounded-full hover:bg-gray-400 hover:text-white transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>                  
+    </button>
+
+    <h3 class="font-bold text-2xl">Ajouter un nouveau projet</h3>
+
+    <form action="{{ route('admin.addEtape', ['projet' => $projet->id]) }}" method="POST" class="w-full space-y-4 grid grid-cols-2 gap-2 p-2 overflow-y-scroll">
+        @csrf
+        <label class="inline-block w-full col-span-2">
+            <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Libellé de l'étape</span>
+            <input type="text" name="libelle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+        </label>
+        
+        <div class="col-span-2 w-full flex flex-row justify-around">
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Enregistrer</button>
+            <button type="button" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Supprimer</button>
+        </div>
+    </form>
+</dialog>
 
 @endsection
