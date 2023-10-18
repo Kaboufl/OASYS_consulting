@@ -51,7 +51,7 @@
                         <tr class="text-neutral-800">
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $etape->libelle }}</td>
                             <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                <a href="{{ route('admin.etape', ['projet' => $projet->id, 'etape' => $etape->id]) }}" class="text-blue-600 underline hover:text-blue-700">Détails</a>
+                                <a href="{{ route('admin.projet.etape.etape', ['projet' => $projet->id, 'etape' => $etape->id]) }}" class="text-blue-600 underline hover:text-blue-700">Détails</a>
                             </td>
                         </tr>
                     @endforeach
@@ -71,9 +71,9 @@
         </svg>                  
     </button>
 
-    <h3 class="font-bold text-2xl">Ajouter un nouveau projet</h3>
+    <h3 class="font-bold text-2xl">Ajouter une étape</h3>
 
-    <form action="{{ route('admin.addEtape', ['projet' => $projet->id]) }}" method="POST" class="w-full space-y-4 grid grid-cols-2 gap-2 p-2 overflow-y-scroll">
+    <form action="{{ route('admin.projet.etape.add', ['projet' => $projet->id]) }}" method="POST" class="w-full space-y-4 grid grid-cols-2 gap-2 p-2 overflow-y-scroll">
         @csrf
         <label class="inline-block w-full col-span-2">
             <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Libellé de l'étape</span>
