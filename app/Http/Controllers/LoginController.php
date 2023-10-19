@@ -21,6 +21,11 @@ class LoginController extends Controller
             if (Auth::user()->admin) {
                 return redirect()->route('admin.dashboard');
             }
+            if (Auth::user()->chefDe)
+            {
+                dd(Auth::user()->chefDe);
+                return response('chef de projet !');
+            }
 
             return response('ok');
 
