@@ -57,7 +57,9 @@
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->date_debut_intervention }}</td>
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->date_fin_intervention }}</td>
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->commentaire }}</td>
-                            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->intervenant->prestataire ? $intervention->intervenant->getPrestataire->raison_sociale : $intervention->intervenant->prenom.' '.$intervention->intervenant->nom }}</td>
+                            <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">
+                                {{ $intervention->intervenant->prestataire ? $intervention->intervenant->getPrestataire->raison_sociale : $intervention->intervenant->prenom.' '.$intervention->intervenant->nom }}
+                            </td>
                             <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
                                 <a class="text-blue-600 underline hover:text-blue-700 hover:cursor-not-allowed">Détails</a>
                             </td>
