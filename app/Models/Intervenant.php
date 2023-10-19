@@ -23,6 +23,11 @@ class Intervenant extends Authenticatable
         return $this->HasOne(Prestataire::class, 'id_intervenant');
     }
 
+    public function chefDe(): BelongsTo
+    {
+        return $this->belongsTo(Projet::class, 'id', 'id_chef_projet');
+    }
+
     public function intervention(): BelongsTo
     {
         return $this->belongsTo(Intervention::class, 'id');
