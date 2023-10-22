@@ -12,6 +12,9 @@ use App\Models\Etape;
 use App\Models\Projet;
 use App\Models\Client;
 use App\Models\Domaine;
+use App\Models\Facture;
+use App\Models\Intervention;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -120,8 +123,9 @@ class AdminController extends Controller
      * @param Etape $etape
      * @return void
      */
-    public function showEtape(Projet $projet, Etape $etape) {
+    public function showEtape($projet, Etape $etape) {
         //dd($projet, $etape);
+        $projet = Projet::find(session('id_projet'));
         $interventions = $etape->interventions()->get();
 
         $intervenantsDispo = Intervenant::select('intervenants.*')
@@ -129,6 +133,7 @@ class AdminController extends Controller
         ->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
         ->leftJoin('interventions', 'intervenants.id', '=', 'interventions.id_intervenant')
         ->whereNull('projets.id_chef_projet')
+        ->whereNull('interventions.id_intervenant')
         ->whereNull('admins.id_intervenant')->get();
 
         //dd($test);
@@ -144,6 +149,10 @@ class AdminController extends Controller
         $etape = new Etape;
         $etape->libelle = $request->libelle;
         $etape->id_projet = $projet->id;
+        $etape->id_facture = Facture::create([
+            "libelle" => "Facture de l'étape ".$etape->libelle,
+            "montant" => 0,
+        ])->id;
 
         $etape->save();
 
@@ -151,15 +160,59 @@ class AdminController extends Controller
         dd($etape);
     }
 
-    public function addIntervention(Request $request)
+    public function addIntervention($etape, Request $request)
     {
+        //dd($request);
         $request->validate([
             'libelle' => 'required|min:3',
-            'date' => 'required|date',
-            'debut' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/',
-            'fin' => 'required|regex:/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/'
-        ]);
-        dd($request);
+            'debut' => 'required|date',
+            'fin' => 'required|date',
+            'intervenant' => 'required|numeric'
+        ]); 
+
+        $debut = Carbon::parse($request->date)->setTimeFromTimeString($request->debut);
+        $fin = Carbon::parse($request->date)->setTimeFromTimeString($request->fin);
+
+
+        $intervention = new Intervention;
+        $intervention->libelle = $request->libelle;
+        $intervention->date_debut_intervention = $debut;
+        $intervention->date_fin_intervention = $fin;
+        $intervention->id_etape = $etape;
+        $intervention->id_intervenant = $request->intervenant;
+
+        $intervention->save();
+
+        return redirect()->route('admin.projet.etape.etape', ['projet' => session('id_projet'), 'etape' => $etape]);
+        dd($request, $intervention, $intervention->facture);
+    }
+
+    public function addFacture(Projet $projet, $etape) {
+        $etape = Etape::find($etape);
+        $interventions = $etape->interventions()->orderBy('date_debut_intervention')->get();
+        $client = $projet->client;
+
+        $interventions->map(function($intervention) use ($projet) {
+            $debut = Carbon::parse($intervention->date_debut_intervention);
+            $fin = Carbon::parse($intervention->date_fin_intervention);
+            $duree = 0;
+            for($i = $debut; $i->lessThan($fin); $i->addDay()) {
+                $i->diffInHours($fin) > 7 ? $duree += 7 : $duree += $i->diffInHours($fin);
+            }
+            $intervention->duree = $duree;
+
+            if ($intervention->intervenant->prestataire) {
+                $intervention->totalPresta = number_format($intervention->intervenant->getPrestataire->taux_horaire * $intervention->duree, 2, '.', ''); // round float to 2 decimals  number_format($number, 2, '.', '');
+            }
+
+            return;
+        });
+
+        $projet->total = $interventions->sum('duree') * $projet->taux_horaire;
+
+        //dd($interventions, $projet);
+
+        return view('chefs.addFacture', compact('interventions', 'etape', 'projet', 'client'));
     }
 
     public function putClient(Request $request) {

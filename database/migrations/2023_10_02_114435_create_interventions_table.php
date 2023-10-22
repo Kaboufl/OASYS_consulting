@@ -16,16 +16,14 @@ return new class extends Migration
             $table->string('libelle', 42);
             $table->dateTime('date_debut_intervention', $precision = 0);
             $table->dateTime('date_fin_intervention', $precision = 0);
-            $table->string('commentaire', 255);
+            $table->string('commentaire', 255)->nullable();
 
             $table->unsignedBigInteger('id_etape');
             $table->unsignedBigInteger('id_intervenant');
-            $table->unsignedBigInteger('id_facture');
             $table->timestamps();
 
             $table->foreign('id_etape')->references('id')->on('etapes');
             $table->foreign('id_intervenant')->references('id')->on('intervenants');
-            $table->foreign('id_facture')->references('id')->on('factures');
         });
     }
 

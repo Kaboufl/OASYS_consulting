@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('adresse', 255);
             $table->string('code_postal', 5);
             $table->string('ville', 255);
+            $table->float('taux_horaire', 7, 2);
             $table->unsignedBigInteger('id_intervenant');
 
             $table->timestamps();

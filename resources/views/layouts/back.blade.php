@@ -5,7 +5,15 @@
 
     @include('partials.back.header')
 
-    @include('partials.back.nav')
+    @if(auth()->user()->admin)
+    @include('partials.back.admin.nav')
+    @endif
+    
+    @if(auth()->user()->chefDe)
+    @include('partials.back.chef.nav')
+    @endif
+
+
 
     <div class="row-start-2 col-start-2  place-self-stretch px-4 pb-4" id="content">
         @yield('content')

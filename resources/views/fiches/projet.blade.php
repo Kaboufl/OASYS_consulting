@@ -2,11 +2,12 @@
 @section('content')
 
 <div class="h-full p-4 justify-self-stretch bg-gray-400 rounded-md row-start-2 col-start-2 flex flex-col items-stretch gap-4">
-    <div class="grid grid-rows-3 grid-cols-[6fr_3fr] items-center rounded-md border-2 border-neutral-700 bg-neutral-100 p-4">
+    <div class="grid @if(isset($chefProjet)) grid-rows-3 @else grid-rows-2 @endif grid-cols-[6fr_3fr] items-center rounded-md border-2 border-neutral-700 bg-neutral-100 p-4">
         <h1 class="col-start-1 font-black text-2xl text-black">Projet : {{ $projet->libelle }} - {{ $domaine->libelle }}</h1>
         <h3 class="col-start-1 font-bold text-black">Client : {{ $client->raison_sociale }}</h3>
-        <span class="col-start-1">Chef de projet : {{ $chefProjet->prenom.' '.$chefProjet->nom }}</span>
-        
+        @if(isset($chefProjet))
+            <span class="col-start-1">Chef de projet : {{ $chefProjet->prenom.' '.$chefProjet->nom }}</span>
+        @endif
         <a class="col-start-2 row-start-1 justify-self-end row-span-3 flex flex-row items-center text-blue-400 hover:underline transition-all" href="">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
@@ -76,8 +77,8 @@
     <form action="{{ route('admin.projet.etape.add', ['projet' => $projet->id]) }}" method="POST" class="w-full space-y-4 grid grid-cols-2 gap-2 p-2 overflow-y-scroll">
         @csrf
         <label class="inline-block w-full col-span-2">
-            <span class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Libellé de l'étape</span>
-            <input type="text" name="libelle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            <span class="block mb-2 text-sm font-medium text-gray-900 ">Libellé de l'étape</span>
+            <input type="text" name="libelle" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    dark:focus:ring-blue-500 dark:focus:border-blue-500">
         </label>
         
         <div class="col-span-2 w-full flex flex-row justify-around">

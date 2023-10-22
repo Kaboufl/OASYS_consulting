@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('libelle', 42);
             $table->float('montant', 7, 2);
-            $table->dateTime('date_facture', $precision = 0);
+            $table->timestamp('date_facture')->default(now());
             $table->timestamps();
 
         });

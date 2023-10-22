@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('libelle', 42);
             $table->unsignedBigInteger('id_projet');
+            $table->unsignedBigInteger('id_facture')->nullable();
             $table->timestamps();
 
+            $table->foreign('id_facture')->references('id')->on('factures');
             $table->foreign('id_projet')->references('id')->on('projets');
         });
     }

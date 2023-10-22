@@ -23,8 +23,11 @@ class LoginController extends Controller
             }
             if (Auth::user()->chefDe)
             {
-                dd(Auth::user()->chefDe);
-                return response('chef de projet !');
+                return redirect()->route('chef.projets');
+            }
+            if (Auth::user()->intervention)
+            {
+                return redirect()->route('intervenant.intervention');
             }
 
             return response('ok');

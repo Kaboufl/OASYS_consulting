@@ -71,7 +71,9 @@ class DatabaseSeeder extends Seeder
         $domaine->save();
 
 
-        Prestataire::factory(2)->create();
+        Prestataire::factory(5)->create();
+
+        Intervenant::factory(10)->create();
 
         Client::factory(12)->create();
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Intervention extends Model
@@ -13,5 +14,15 @@ class Intervention extends Model
     public function intervenant(): HasOne
     {
         return $this->hasOne(Intervenant::class, 'id', 'id_intervenant');
+    }
+
+    public function etape(): BelongsTo
+    {
+        return $this->belongsTo(Etape::class, 'id_etape');
+    }
+
+    public function facture(): HasOne
+    {
+        return $this->hasOne(Facture::class, 'id', 'id_facture');
     }
 }

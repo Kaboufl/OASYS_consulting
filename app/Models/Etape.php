@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Etape extends Model
 {
@@ -19,5 +20,10 @@ class Etape extends Model
     public function interventions(): HasMany
     {
         return $this->hasMany(Intervention::class, 'id_etape');
+    }
+
+    public function facture(): HasOne
+    {
+        return $this->hasOne(Facture::class, 'id');
     }
 }

@@ -24,6 +24,7 @@ class PrestataireFactory extends Factory
             'adresse' => fake()->streetAddress(),
             'code_postal' => fake()->randomNumber(5, true),
             'ville' => fake()->city(),
+            'taux_horaire' => fake()->randomFloat(2, 0, 100),
             'id_intervenant' => \App\Models\Intervenant::factory()->create(['prestataire' => true])
         ];
     }

@@ -30,6 +30,6 @@ class Intervenant extends Authenticatable
 
     public function intervention(): BelongsTo
     {
-        return $this->belongsTo(Intervention::class, 'id');
+        return $this->belongsTo(Intervention::class, 'id', 'id_intervenant');
     }
 }
