@@ -24,6 +24,6 @@ class Etape extends Model
 
     public function facture(): HasOne
     {
-        return $this->hasOne(Facture::class, 'id');
+        return $this->hasOne(Facture::class, 'id', 'id_facture');
     }
 }

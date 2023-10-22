@@ -20,9 +20,4 @@ class Intervention extends Model
     {
         return $this->belongsTo(Etape::class, 'id_etape');
     }
-
-    public function facture(): HasOne
-    {
-        return $this->hasOne(Facture::class, 'id', 'id_facture');
-    }
 }

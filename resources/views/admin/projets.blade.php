@@ -106,7 +106,7 @@
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 ">Domaine du projet :</span>
                 
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                <select id="domaine" name="domaine" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                     <option selected>Choisissez un domaine</option>
                     @foreach($domaines as $domaine)
                         <option value="{{ $domaine->id }}">{{ $domaine->libelle }}</option>
@@ -118,7 +118,7 @@
             </label>
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 ">Chef de projet :</span>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                <select id="chef" name="chefProj" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                     <option selected>Choisissez un chef de projet</option>
                     @foreach($chefsDispo as $chefProjet)
                         <option value="{{ $chefProjet->id }}">{{ $chefProjet->prenom.' '.$chefProjet->nom }}</option>
@@ -129,7 +129,7 @@
             
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 ">Client :</span>
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                <select id="client" name="client" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                     <option selected>Choisissez un chef de projet</option>
                     @foreach($clients as $client)
                         <option value="{{ $client->id }}">{{ addslashes($client->raison_sociale) }}</option>
@@ -146,7 +146,7 @@
             <label class="inline-block w-full col-span-2">
                 <span class="block mb-2 text-sm font-medium text-gray-900 ">Statut du projet :</span>
                 
-                <select id="countries" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                <select id="statut" name="statut" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
                     <option selected>Choisissez un chef de projet</option>
                     @foreach($statuts as $key => $statut)
                         <option value="{{ $key }}">{{ $statut }}</option>

@@ -157,7 +157,7 @@ class AdminController extends Controller
         $etape->save();
 
 
-        dd($etape);
+        return redirect()->route('admin.projet.etape.etape', ['projet' => $projet->id, 'etape' => $etape->id]);
     }
 
     public function addIntervention($etape, Request $request)
@@ -184,7 +184,6 @@ class AdminController extends Controller
         $intervention->save();
 
         return redirect()->route('admin.projet.etape.etape', ['projet' => session('id_projet'), 'etape' => $etape]);
-        dd($request, $intervention, $intervention->facture);
     }
 
     public function addFacture(Projet $projet, $etape) {
