@@ -149,10 +149,6 @@ class AdminController extends Controller
         $etape = new Etape;
         $etape->libelle = $request->libelle;
         $etape->id_projet = $projet->id;
-        $etape->id_facture = Facture::create([
-            "libelle" => "Facture de l'étape ".$etape->libelle,
-            "montant" => 0,
-        ])->id;
 
         $etape->save();
 
