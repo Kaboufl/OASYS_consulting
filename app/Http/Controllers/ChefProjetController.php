@@ -156,7 +156,7 @@ class ChefProjetController extends Controller
             $intervention->duree = $duree;
 
             if ($intervention->intervenant->prestataire) {
-                $intervention->totalPresta = number_format($intervention->intervenant->getPrestataire->taux_horaire * $intervention->duree, 2, '.', ''); // round float to 2 decimals  number_format($number, 2, '.', '');
+                $intervention->totalPresta = number_format($intervention->intervenant->getPrestataire->taux_horaire * $intervention->duree, 2, '.', '');
             }
 
             return;
