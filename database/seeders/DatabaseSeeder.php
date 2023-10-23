@@ -33,8 +33,8 @@ class DatabaseSeeder extends Seeder
         
         $intervenant->nom = 'OASYS';
         $intervenant->prenom = 'Admin';
-        $intervenant->email = 'mw3pumat8@gmail.com';
-        $intervenant->password = \Hash::make('7putoqte');
+        $intervenant->email = 'admin@oasys-consulting.com';
+        $intervenant->password = \Hash::make('admin');
         $intervenant->prestataire = false;
         
         $intervenant->save();
