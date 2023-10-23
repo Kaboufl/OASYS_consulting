@@ -40,21 +40,21 @@ class AdminController extends Controller
 
     /**
      * Retourne la liste des projets, ainsi que le la liste des intervenants internes ET disponibles pour gérer un projet
-     * 
+     *
      * Requête SQL originale :
-     * 
-     * SELECT intervenants.* 
+     *
+     * SELECT intervenants.*
      * FROM oasys_consulting.intervenants
      * LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
      * WHERE projets.id_chef_projet IS NULL
      * AND intervenants.prestataire = FALSE;
-     * 
-     * 
+     *
+     *
      *
      * @return void
      */
     public function projets() {
-        $projets = Projet::paginate($this->pagination);
+        $projets = Projet::with('etape')->paginate($this->pagination);
 
         $projets->withPath('/admin/projets');
 
@@ -72,8 +72,25 @@ class AdminController extends Controller
         return view('admin.projets', compact('projets', 'domaines', 'chefsDispo', 'clients', 'statuts'));
     }
 
+    public function salaries() {
+        $salaries = Intervenant::where('prestataire', false)->paginate($this->pagination);
+        return view('admin.salaries', compact('salaries'));
+    }
+
+    public function showSalarie(Intervenant $salarie) {
+        $intervenant = Intervenant::with('intervention', 'chefDe')->where('prestataire', false)->find($salarie)->first();
+
+        return view('fiches.intervenant', compact('intervenant'));
+    }
+    
+    public function prestataires() {
+        $prestataires = Intervenant::where('prestataire', true)->get();
+
+        dd($prestataires);
+    }
+
     public function addProjet(Request $request) {
-        
+
         $validate = $request->validate([
             'libelle' => 'required',
             'domaine' => 'required|numeric',
@@ -82,9 +99,9 @@ class AdminController extends Controller
             'taux_horaire' => 'required|numeric',
             'statut' => 'nullable|numeric'
         ]);
-        
+
         $projet = new Projet;
-        
+
         $projet->libelle = $request->libelle;
         $projet->id_domaine = $request->domaine;
         $projet->id_chef_projet = $request->chefProj;
@@ -107,10 +124,10 @@ class AdminController extends Controller
     }
     /**
      * Retourne de détail d'une étape
-     * 
+     *
      * La commande SQL originale pour retourner les intervenants non administrateurs et non-attribués pour l'ajout d'une intervention
-     * 
-     * SELECT intervenants.* 
+     *
+     * SELECT intervenants.*
      * FROM oasys_consulting.intervenants
      * LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
      * LEFT JOIN oasys_consulting.interventions ON intervenants.id = interventions.id_intervenant
@@ -164,7 +181,7 @@ class AdminController extends Controller
             'debut' => 'required|date',
             'fin' => 'required|date',
             'intervenant' => 'required|numeric'
-        ]); 
+        ]);
 
         $debut = Carbon::parse($request->date)->setTimeFromTimeString($request->debut);
         $fin = Carbon::parse($request->date)->setTimeFromTimeString($request->fin);

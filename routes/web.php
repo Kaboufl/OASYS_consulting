@@ -37,6 +37,12 @@ Route::name('admin.')
 
     Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/clients', [AdminController::class, 'clients'])->name('clients');
+    Route::post('/clients', [AdminController::class, 'putClient']);
+
+    Route::get('/salaries', [AdminController::class, 'salaries'])->name('salaries');
+    Route::get('/intervenant/{salarie}', [AdminController::class, 'showSalarie'])->name('intervenant');
+
+    Route::get('/prestataires', [AdminController::class, 'prestataires'])->name('prestataires');
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
     Route::post('/projets', [AdminController::class, 'addProjet']);
     Route::name('projet.')->prefix('/projet')->group(function () {
@@ -54,7 +60,6 @@ Route::name('admin.')
             });
         });
     });
-    Route::post('/clients', [AdminController::class, 'putClient']);
 });
 
 Route::name('chef.')
