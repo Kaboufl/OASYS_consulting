@@ -7,9 +7,15 @@
         <h4 class="col-start-1 font-medium text-black">Adresse mail : {{ $intervenant->email }}</h4>
     </div>
 
-    @if($intervenant->intervention)
-        C'est un salarié non-chef de projet
-    @endif
+    <div class="grid grid-rows-3 grid-cols-2 items-center rounded-md border-2 border-neutral-700 bg-neutral-100 p-4">
+        @if($intervenant->intervention)
+        <h1 class="font-semibold text-2xl text-black">Intervention en cours : <span class="font-normal"> {{ $intervenant->intervention->libelle }}</span></h1>
+        <h1 class="row-start-2 col-start-1 font-semibold text-lg text-black">Commentaire : <p class="font-light"> {{ $intervenant->intervention->libelle }}</p></h1>
+        <h1 class="font-semibold text-xl text-black">Pour l'étape : <a class="underline text-cyan-600 font-normal" href="{{ route('admin.projet.etape.etape', [ 'projet' => session('id_projet'), 'etape' => $etape->id]) }}">{{ $intervenant->intervention->libelle }}</a></h1>
+        @elseif($intervenant->chefDe)
+        Chef de projet
+        @endif
+    </div>
     
     @dump($intervenant)
 </div>

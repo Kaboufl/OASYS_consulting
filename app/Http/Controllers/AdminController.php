@@ -54,7 +54,7 @@ class AdminController extends Controller
      * @return void
      */
     public function projets() {
-        $projets = Projet::with('etape')->paginate($this->pagination);
+        $projets = Projet::with('etapes')->paginate($this->pagination);
 
         $projets->withPath('/admin/projets');
 
@@ -73,14 +73,24 @@ class AdminController extends Controller
     }
 
     public function salaries() {
-        $salaries = Intervenant::where('prestataire', false)->paginate($this->pagination);
+        $salaries = Intervenant::select('intervenants.*')->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
+                                ->whereNull('admins.id_intervenant')
+                                ->where('prestataire', false)
+                                ->paginate($this->pagination);
         return view('admin.salaries', compact('salaries'));
     }
 
-    public function showSalarie(Intervenant $salarie) {
-        $intervenant = Intervenant::with('intervention', 'chefDe')->where('prestataire', false)->find($salarie)->first();
+    public function showIntervenant(Intervenant $intervenant) {
+        $intervenant = Intervenant::with('intervention', 'chefDe')
+                                    ->where('prestataire', false)
+                                    ->find($intervenant)->first();
 
-        return view('fiches.intervenant', compact('intervenant'));
+        if ($intervenant->intervention)
+        {
+            $etape = $intervenant->intervention->etape;
+        }
+
+        return view('fiches.intervenant', ['intervenant' => $intervenant, 'etape' => $etape??null]);
     }
     
     public function prestataires() {
@@ -136,7 +146,7 @@ class AdminController extends Controller
      * AND interventions.id_intervenant IS NULL;
      * AND admins.id_intervenant IS NULL;
      *
-     * @param Projet $projet
+     * @param $projet
      * @param Etape $etape
      * @return void
      */

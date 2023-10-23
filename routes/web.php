@@ -40,7 +40,7 @@ Route::name('admin.')
     Route::post('/clients', [AdminController::class, 'putClient']);
 
     Route::get('/salaries', [AdminController::class, 'salaries'])->name('salaries');
-    Route::get('/intervenant/{salarie}', [AdminController::class, 'showSalarie'])->name('intervenant');
+    Route::get('/intervenant/{intervenant}', [AdminController::class, 'showIntervenant'])->name('intervenant');
 
     Route::get('/prestataires', [AdminController::class, 'prestataires'])->name('prestataires');
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
