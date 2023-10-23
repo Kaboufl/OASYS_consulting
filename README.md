@@ -64,3 +64,39 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Récupérer les indentifiants
+
+La solution dispose de 3 espaces utilisateur :
+
+
+- Administrateur : Il n'y a qu'un seul intervenant administrateur :
+>  `Login : admin@oasys-consulting.com` \
+>  `Mot de passe : admin`
+
+- Chef de projet : Exécuter la requête suivante pour obtenir la liste des chefs de projets
+
+> ``` SQL
+>   SELECT intervenants.* 
+>   FROM oasys_consulting.intervenants
+>   LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
+>   LEFT JOIN oasys_consulting.interventions ON intervenants.id = interventions. id_intervenant
+>   LEFT JOIN oasys_consulting.admins ON intervenants.id = admins.id_intervenant
+>   WHERE projets.id_chef_projet IS NOT NULL
+>   AND interventions.id_intervenant IS NULL
+>   AND admins.id_intervenant IS NULL;
+>```
+
+- Intervenants : Exécuter la requête suivante pour obtenir la liste des intervenants (internes et externes) assignés à des projets
+
+>   ```SQL
+>   SELECT intervenants.* 
+>   FROM oasys_consulting.intervenants
+>   LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
+>   LEFT JOIN oasys_consulting.interventions ON intervenants.id = interventions.id_intervenant
+>   LEFT JOIN oasys_consulting.admins ON intervenants.id = admins.id_intervenant
+>   WHERE projets.id_chef_projet IS NULL
+>   AND interventions.id_intervenant IS NOT NULL
+>   AND admins.id_intervenant IS NULL;
+>   ```
+
