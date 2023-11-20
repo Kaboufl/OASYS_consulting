@@ -27,3 +27,6 @@ jobs:
     - name: Composer install
       run: |
         composer install --no-dev --no-interaction --prefer-dist
+
+    - name: Creer un artefact de deploiement
+      run: tar -czf app.tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
