@@ -30,3 +30,14 @@ jobs:
 
     - name: Creer un artefact de deploiement
       run: tar -czf app.tar.gz --exclude=*.git --exclude=node_modules --exclude=tests *
+
+    - name: Deploy to DigitalOcean
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.DROPLET_IP }}
+        username: ${{ secrets.DROPLET_USER }}
+        key: ${{ secrets.DROPLET_SSH_KEY }}
+        script: |
+          cd /var/www/oasys
+          tar -xzf app.tar.gz
+          composer install --no-dev
