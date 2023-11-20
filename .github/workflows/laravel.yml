@@ -37,8 +37,8 @@ jobs:
         host: ${{ secrets.DROPLET_IP }}
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.DROPLET_SSH_KEY }}
-        source: app.tar.gz
-        target: /var/www/oasys/
+        source: "./app.tar.gz"
+        target: "/var/www/oasys/app.tar.gz"
 
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@master
