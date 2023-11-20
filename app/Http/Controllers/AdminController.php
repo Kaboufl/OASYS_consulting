@@ -51,7 +51,7 @@ class AdminController extends Controller
      *
      *
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\View
      */
     public function projets() {
         $projets = Projet::with('etapes')->paginate($this->pagination);
@@ -92,7 +92,7 @@ class AdminController extends Controller
 
         return view('fiches.intervenant', ['intervenant' => $intervenant, 'etape' => $etape??null]);
     }
-    
+
     public function prestataires() {
         $prestataires = Intervenant::where('prestataire', true)->get();
 
@@ -148,7 +148,7 @@ class AdminController extends Controller
      *
      * @param $projet
      * @param Etape $etape
-     * @return void
+     * @return \Illuminate\Contracts\View\View
      */
     public function showEtape($projet, Etape $etape) {
         //dd($projet, $etape);
