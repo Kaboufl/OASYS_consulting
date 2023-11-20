@@ -38,7 +38,7 @@ jobs:
         username: ${{ secrets.DROPLET_USER }}
         key: ${{ secrets.DROPLET_SSH_KEY }}
         source: app.tar.gz
-        target: /var/www/oasys/app.tar.gz
+        target: /var/www/oasys/
 
     - name: Deploy to DigitalOcean
       uses: appleboy/ssh-action@master
