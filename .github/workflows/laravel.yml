@@ -39,7 +39,8 @@ jobs:
         key: ${{ secrets.DROPLET_SSH_KEY }}
         script: |
           cd /var/www/oasys
-          rm -rf *  !(.env)
+          shopt -s extglob
+          rm -rf !(storage|.env)
     
     - name: Upload l'artefact de deploiement
       uses: appleboy/scp-action@master
