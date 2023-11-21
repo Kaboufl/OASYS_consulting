@@ -40,7 +40,7 @@ jobs:
         script: |
           cd /var/www/oasys
           shopt -s extglob
-          rm -rf !(storage|.env)
+          rm -rf !(storage|certs|.env)
     
     - name: Upload l'artefact de deploiement
       uses: appleboy/scp-action@master
