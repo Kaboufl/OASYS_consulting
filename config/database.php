@@ -80,7 +80,8 @@ return [
             'engine' => null,
             'sslmode' => 'REQUIRED',
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('DB_CA', __DIR__ . '/certs/db.crt'),
+                PDO::MYSQL_ATTR_SSL_CA => base_path('/certs/db.crt'),
+                PDO::MYSQL_ATTR_SSL_KEY => base_path('/certs/db.pub'),
             ]) : [],
         ],
 
