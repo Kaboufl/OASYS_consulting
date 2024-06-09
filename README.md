@@ -1,102 +1,83 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# OASYS Consulting
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+OASYS Consulting, agence de développement de projets informatiques, a pour mission de concevoir des solutions digitales sur-mesure pour ses clients. Afin d'optimiser sa gestion de projet interne et d'accroître la collaboration entre ses équipes, OASYS Consulting a développé une application web métier type statique. Elle fait parfois appel à des sous-traitants pour compléter certaines tâches.
 
-## About Laravel
+Notre mission est de créer une application web type statique permettant aux différents intervenants d'OASYS Consulting de gérer efficacement les projets et d'en assurer un suivi rigoureux.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Cette application centralise les informations relatives aux projets, automatise des tâches et offre des fonctionnalités dédiées à chaque type d'utilisateur : administrateurs, chefs de projet et intervenants.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Fonctionnalités clés de l'application :
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Gestion centralisée des projets : Création, modification, suppression et consultation des projets, avec suivi des étapes et des interventions.
+- Affectation des ressources : Assignation des chefs de projet et des intervenants aux projets et aux étapes.
+- Suivi des interventions : Enregistrement des dates de début et de fin, des commentaires et des pièces jointes pour chaque intervention.
+- Statistiques et reporting : Consultation de tableaux de bord et de rapports pour analyser les données des projets et suivre leur avancement.
+- Interfaces utilisateur dédiées : Des interfaces ergonomiques et intuitives conçues pour répondre aux besoins spécifiques de chaque type d'utilisateur.
 
-## Learning Laravel
+## Interprétation du cahier des charges
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Les domaines
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Un domaine est un moyen de catégoriser les projets, les principaux domaines sont :
+ - Formation
+ - Systèmes et Réseaux
+ - Développement
+ - Infogérance
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Les projets
 
-## Laravel Sponsors
+Les projets ont un nom (libellé), ils sont rattachés à un [domaine](#les-domaines) et au compte client qui a commandité ce dernier. Ils ont également un statut et un taux horaire négocié en amont avec le client.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Les projets ont un chef de projet assigné, ce chef de projet est **forcément** un salarié d'OASYS Consulting.
 
-### Premium Partners
+### Les étapes
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Les projets sont segmentés en étapes pour garantir une traçabilité optimale de l'avancement du projet. Les étapes ont un libellé et sont facturées directement au client.
 
-## Contributing
+### Les interventions
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Les interventions référencent l'étape et le membre du personnel responsable de l'intervention, avec un suivi des dates de début et de fin
 
-## Code of Conduct
+## L'architecture de l'application
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+L'application devra proposer différentes interfaces à différents types d'utilisateurs :
 
-## Security Vulnerabilities
+ - Un portail administrateur
+    - Gestion des clients, des projets ainsi que du personnel
+    - Assigne les chefs de projets
+ - Chef de projet
+    - Gestion du projet (ses différents étapes et leurs interventions associées)
+    - Affectation des intervenants / prestataires externes aux interventions
+    - Possibilité de voir quelle est la part d'intervenants internes et externes
+ - Intervenant
+    - Possibilité de modifier le commentaire de suivi de l'intervention assignée
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Stack technique du projet
 
-## License
+Pour faire ce site statique, j'ai choisi de partir sur une solution de type PHP, plus particulièrement avec le framework [Laravel](https://laravel.com/) constituant une base solide à partir de laquelle développer
+un projet. Une base de données MySQL assurera le stockage des informations de l'application, elle sera accédée par l'application via Eloquent, l'ORM de Laravel qui permet de créer des modèles
+et ainsi travailler sur la base de données en conservant une syntaxe de programmation orientée objet.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Le serveur de développement utilise Docker afin de minimiser l'impact de l'environnement système sur le fonctionnement de l'application. J'utilise l'image [Laravel Sail](https://laravel.com/docs/10.x/sail#installation)
+offrant un environnement de développement complet pour un projet Laravel. Le serveur de développement utilise Vite, qui permet une expérience de développement plus fluide grâce au Hot Module Replacement.
 
-## Récupérer les indentifiants
+Pour le design des interfaces, le package [Tailwind CSS](https://tailwindcss.com/) est utilisé conjointement avec Vite pour générer le fichier CSS à la volée
 
-La solution dispose de 3 espaces utilisateur :
+## Fonctionnalités et interfaces utilisateur
 
+L'interface utilisateur de l'administrateur est la plus complète de l'application, il a accès à :
+- Consultation, création, modification et suppression des clients
+- Consultation, création, modification et suppression des projets
+- Consultation, création, modification et suppression des étapes
+- Consultation, création, modification et suppression des interventions
+- Consultation, création, modification et suppression des intervenants (salariés / prestataires externes)
+- Consultations de statistiques sur les projets
 
-- Administrateur : Il n'y a qu'un seul intervenant administrateur :
->  `Login : admin@oasys-consulting.com` \
->  `Mot de passe : admin`
+Celle du chef de projet permet :
+ - Consultation du projet assigné
+ - Consultation et création des étapes du projet
+ - Consultation et création des interventions des étapes
+ - Assignation d'un intervenant sur l'intervention
 
-- Chef de projet : Exécuter la requête suivante pour obtenir la liste des chefs de projets
-
-> ``` SQL
->   SELECT intervenants.* 
->   FROM oasys_consulting.intervenants
->   LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
->   LEFT JOIN oasys_consulting.interventions ON intervenants.id = interventions. id_intervenant
->   LEFT JOIN oasys_consulting.admins ON intervenants.id = admins.id_intervenant
->   WHERE projets.id_chef_projet IS NOT NULL
->   AND interventions.id_intervenant IS NULL
->   AND admins.id_intervenant IS NULL;
->```
-
-- Intervenants : Exécuter la requête suivante pour obtenir la liste des intervenants (internes et externes) assignés à des projets
-
->   ```SQL
->   SELECT intervenants.* 
->   FROM oasys_consulting.intervenants
->   LEFT JOIN oasys_consulting.projets ON intervenants.id = projets.id_chef_projet
->   LEFT JOIN oasys_consulting.interventions ON intervenants.id = interventions.id_intervenant
->   LEFT JOIN oasys_consulting.admins ON intervenants.id = admins.id_intervenant
->   WHERE projets.id_chef_projet IS NULL
->   AND interventions.id_intervenant IS NOT NULL
->   AND admins.id_intervenant IS NULL;
->   ```
-
+Celle de l'intervenant permet :
+ - Consultation et modification du commentaire de l'intervention assignée
