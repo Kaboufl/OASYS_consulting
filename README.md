@@ -1,3 +1,5 @@
+![logo Oasys](/public/assets/images/logo/png/logo-no-background.png)
+
 # OASYS Consulting
 
 OASYS Consulting, agence de développement de projets informatiques, a pour mission de concevoir des solutions digitales sur-mesure pour ses clients. Afin d'optimiser sa gestion de projet interne et d'accroître la collaboration entre ses équipes, OASYS Consulting a développé une application web métier type statique. Elle fait parfois appel à des sous-traitants pour compléter certaines tâches.
@@ -62,6 +64,14 @@ Le serveur de développement utilise Docker afin de minimiser l'impact de l'envi
 offrant un environnement de développement complet pour un projet Laravel. Le serveur de développement utilise Vite, qui permet une expérience de développement plus fluide grâce au Hot Module Replacement.
 
 Pour le design des interfaces, le package [Tailwind CSS](https://tailwindcss.com/) est utilisé conjointement avec Vite pour générer le fichier CSS à la volée
+
+## Le modèle de données
+
+Le modèle conceptuel de données est réalisé à l'aide de l'outil [dbdiagram.io](https://dbdiagram.io/home), il est possible de le consulter [ici](https://dbdiagram.io/d/OASYS-Consulting-666859406bc9d447b16984a1)
+
+![MCD](/resources/docs/oasys_mcd.png)
+
+
 
 ## Fonctionnalités et interfaces utilisateur
 
