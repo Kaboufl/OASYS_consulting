@@ -91,3 +91,5 @@ Celle du chef de projet permet :
 
 Celle de l'intervenant permet :
  - Consultation et modification du commentaire de l'intervention assignée
+
+Test signing key GPG
