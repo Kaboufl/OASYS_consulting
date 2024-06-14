@@ -10,6 +10,8 @@ use App\Http\Controllers\IntervenantController;
 use App\Models\Admin;
 use App\Models\Intervenant;
 use App\Models\Intervention;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,9 +42,11 @@ Route::name('admin.')
     Route::post('/clients', [AdminController::class, 'putClient']);
 
     Route::get('/salaries', [AdminController::class, 'salaries'])->name('salaries');
+    Route::post('/salaries', [AdminController::class, 'storeSalarie']);
     Route::get('/intervenant/{intervenant}', [AdminController::class, 'showIntervenant'])->name('intervenant');
 
     Route::get('/prestataires', [AdminController::class, 'prestataires'])->name('prestataires');
+    Route::post('/prestataires', [AdminController::class, 'storePrestataire']);
     Route::get('/projets', [AdminController::class, 'projets'])->name('projets');
     Route::post('/projets', [AdminController::class, 'addProjet']);
     Route::name('projet.')->prefix('/projet')->group(function () {
@@ -110,3 +114,7 @@ Route::get('test/{id}', function ($id) {
 });
 
 Route::get('logout', function () {Auth::logout();return redirect('/');})->name('logout');
+
+Route::get('encryptPassword/{password}', function ($password) {
+    return Hash::make($password);
+});
