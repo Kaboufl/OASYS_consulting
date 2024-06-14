@@ -5,5 +5,4 @@
 </h1>
 
 <p class="mx-auto mt-6 text-sm text-left text-gray-200 md:text-center md:mt-12 sm:text-base md:max-w-xl md:text-lg xl:text-xl">Confiez nous vos projets, nous les mènerons à bien</p>
-<p class="mx-auto mt-3 text-sm text-left text-gray-200 md:text-center md:mt-12 sm:text-base md:max-w-xl md:text-lg xl:text-xl">C'est une entorse à la loi Sherman</p>
 @stop
