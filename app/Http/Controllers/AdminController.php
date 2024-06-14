@@ -14,7 +14,9 @@ use App\Models\Client;
 use App\Models\Domaine;
 use App\Models\Facture;
 use App\Models\Intervention;
+use App\Models\Prestataire;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -80,11 +82,48 @@ class AdminController extends Controller
         return view('admin.salaries', compact('salaries'));
     }
 
-    public function showIntervenant(Intervenant $intervenant) {
-        $intervenant = Intervenant::with('intervention', 'chefDe')
-                                    ->where('prestataire', false)
-                                    ->find($intervenant)->first();
+    public function storeSalarie(Request $request) {
+        $request->validate(
+            [
+                'nom' => 'required|min:3',
+                'prenom' => 'required|min:3',
+                'email' => 'required|email|unique:intervenants',
+                // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+                'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
+                'confirmPassword' => 'required|same:password'
+            ],
+            [
+                'nom.required' => 'Veuillez renseigner le nom du salarié',
+                'nom.min' => 'Le nom doit faire au moins 3 caractères',
+                'prenom.required' => 'Veuillez renseigner le prénom du salarié',
+                'prenom.min' => 'Le prénom doit faire au moins 3 caractères',
+                'email.required' => 'Veuillez renseigner l\'adresse mail du salarié',
+                'email.email' => 'L\'adresse mail n\'a pas le bon format !',
+                'email.unique' => 'Cette adresse existe déjà !',
+                'password.required' => 'Veuillez renseigner un mot de passe !',
+                'password.min' => 'Le mot de passe doit contenir au moins 8 caractères',
+                'password.regex' => 'Le mot de passe doit contenir une majuscule, minuscule, un chiffre et un caractère spécial',
+                'confirmPassword' => 'Veuillez confirmer le mot de passe'
+            ]
+        );
 
+        $salarie = new Intervenant;
+        $salarie->nom = $request->nom;
+        $salarie->prenom = $request->prenom;
+        $salarie->email = $request->email;
+        $salarie->password = Hash::make($request->password);
+        $salarie->prestataire = false;
+
+        $salarie->save();
+
+        return redirect()->back()->with('success', 'Salarié ajouté !');
+    }
+
+    public function showIntervenant($intervenantId) {
+        $intervenant = Intervenant::with('intervention', 'chefDe')
+                                    //->where('prestataire', false)
+                                    ->find($intervenantId);
+        //dd($intervenantId, $intervenant);
         if ($intervenant->intervention)
         {
             $etape = $intervenant->intervention->etape;
@@ -94,9 +133,57 @@ class AdminController extends Controller
     }
 
     public function prestataires() {
-        $prestataires = Intervenant::where('prestataire', true)->get();
+        $prestataires = Intervenant::with('getPrestataire')
+                                    ->select('intervenants.*')
+                                    ->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
+                                    ->leftJoin('prestataires', 'intervenants.id', '=', 'prestataires.id_intervenant')
+                                    ->whereNull('admins.id_intervenant')
+                                    ->whereNotNull('prestataires.id_intervenant')
+                                    ->paginate();
 
-        dd($prestataires);
+        //$prestataires = Intervenant::where('prestataire', true)->get();
+
+        //dd($prestataires);
+        return view('admin.prestataires', compact('prestataires'));
+    }
+
+    public function storePrestataire(Request $request) {
+        $request->validate([
+            // basic salary information
+            'nom' => 'required|min:3',
+            'prenom' => 'required|min:3',
+            'email' => 'required|email|unique:intervenants',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/', // Minimum eight characters, at least one uppercase letter, one lowercase letter, one number, and one special character
+            // additionnal prestataire information
+            'siret' => 'required|numeric|regex:/[0-9]{14}/',
+            'raison_sociale' => 'required|min:3',
+            'adresse' => 'required|min:3',
+            'code_postal' => 'required|numeric|regex:/[0-9]{5}/',
+            'ville' => 'required|min:3',
+            'taux_horaire' => 'required|decimal'
+        ]);
+
+        $intervenant = new Intervenant;
+        $intervenant->nom = $request->nom;
+        $intervenant->prenom = $request->prenom;
+        $intervenant->email = $request->email;
+        $intervenant->password = Hash::make($request->password);
+        $intervenant->prestataire = true;
+        $intervenant->save();
+
+        $prestataire = new Prestataire;
+        $prestataire->siret = $request->siret;
+        $prestataire->raison_sociale = $request->raison_sociale;
+        $prestataire->nom = implode(' ', [$request->prenom, $request->nom]);
+        $prestataire->adresse = $request->adresse;
+        $prestataire->code_postal = $request->code_postal;
+        $prestataire->taux_horaire = $request->taux_horaire;
+        $prestataire->ville = $request->ville;
+        $prestataire->taux_horaire = $request->taux_horaire;
+        $prestataire->intervenant()->associate($intervenant);
+        $prestataire->save();
+
+        return redirect()->back()->with('success', 'Prestataire ajouté !');
     }
 
     public function addProjet(Request $request) {
@@ -153,14 +240,15 @@ class AdminController extends Controller
     public function showEtape($projet, Etape $etape) {
         //dd($projet, $etape);
         $projet = Projet::find(session('id_projet'));
-        $interventions = $etape->interventions()->get();
+        $interventions = $etape->interventions()->with('intervenant')->get();
+        //dd($interventions);
 
         $intervenantsDispo = Intervenant::select('intervenants.*')
         ->leftJoin('projets', 'intervenants.id', '=', 'projets.id_chef_projet')
         ->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
         ->leftJoin('interventions', 'intervenants.id', '=', 'interventions.id_intervenant')
         ->whereNull('projets.id_chef_projet')
-        ->whereNull('interventions.id_intervenant')
+        //->whereNull('interventions.id_intervenant')
         ->whereNull('admins.id_intervenant')->get();
 
         //dd($test);
@@ -186,23 +274,45 @@ class AdminController extends Controller
     public function addIntervention($etape, Request $request)
     {
         //dd($request);
-        $request->validate([
-            'libelle' => 'required|min:3',
-            'debut' => 'required|date',
-            'fin' => 'required|date',
-            'intervenant' => 'required|numeric'
-        ]);
+        $request->validate(
+            [
+                'libelle' => 'required|min:3',
+                'debut' => 'required|date',
+                'fin' => 'required|date',
+                'intervenant' => 'required|numeric'
+            ],
+            [
+                'libelle' => 'Veuillez renseigner un libelle pour l\'intervention',
+                'debut' => 'Veuillez renseigner une date de début pour l\'intervention',
+                'fin' => 'Veuillez renseigner une date de fin pour l\'intervention',
+                'intervenant' => 'Veuillez sélectionner l\'intervenant qui réalisera l\'intervention'
+            ]
+        );
+
 
         $debut = Carbon::parse($request->date)->setTimeFromTimeString($request->debut);
         $fin = Carbon::parse($request->date)->setTimeFromTimeString($request->fin);
 
+        $intervenant = Intervenant::with('intervention')->find($request->intervenant);
+
+        foreach($intervenant->intervention()->get() as $intervention) {
+            $debutIntervention = Carbon::parse($intervention->date_debut_intervention);
+            $finIntervention = Carbon::parse($intervention->date_fin_intervention);
+
+            if ($debut >= $debutIntervention && $debut < $finIntervention || $fin <= $finIntervention && $fin > $debutIntervention) {
+                //dump('overlapping event !');
+                return redirect()->back()->withErrors(['date' => 'L\'intervenant a déjà une intervention programmée sur cette période !']);
+            }
+        }
+
+        //dd($intervenant);
 
         $intervention = new Intervention;
         $intervention->libelle = $request->libelle;
         $intervention->date_debut_intervention = $debut;
         $intervention->date_fin_intervention = $fin;
         $intervention->id_etape = $etape;
-        $intervention->id_intervenant = $request->intervenant;
+        $intervention->intervenant()->save($intervenant);
 
         $intervention->save();
 
