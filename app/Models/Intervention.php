@@ -11,9 +11,16 @@ class Intervention extends Model
 {
     use HasFactory;
 
-    public function intervenant(): HasOne
+    protected $fillable = [
+        'libelle',
+        'date_debut_intervention',
+        'date_fin_intervention',
+        'commentaire'
+    ];
+
+    public function intervenant(): BelongsTo
     {
-        return $this->hasOne(Intervenant::class, 'id', 'id_intervenant');
+        return $this->belongsTo(Intervenant::class, 'id_intervenant');
     }
 
     public function etape(): BelongsTo

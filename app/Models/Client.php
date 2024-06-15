@@ -18,6 +18,6 @@ class Client extends Model
 
     public function projets(): hasMany
     {
-        return $this->hasMany(Projet::class);
+        return $this->hasMany(Projet::class, 'id_client');
     }
 }

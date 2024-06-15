@@ -1,4 +1,7 @@
 @extends('layouts.back')
+
+@section('title', 'Clients')
+
 @section('content')
 
     @if($errors->any())
@@ -6,13 +9,13 @@
         document.body.onload = function() {
         @foreach($errors->all() as $error)
 
-            window.dispatchEvent(new CustomEvent('toast-show', { 
-                detail : { 
+            window.dispatchEvent(new CustomEvent('toast-show', {
+                detail : {
                     type: 'danger',
                     message: '{{ $error }}',
                     description: '',
                     position : 'top-center',
-                    html: '' 
+                    html: ''
                 }}));
 
         @endforeach
@@ -28,13 +31,13 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                  
+
                 <span>Ajouter un client</span>
             </button>
         </div>
 
         <div class="min-w-full h-fit rounded-md border-2 border-neutral-700 bg-neutral-100">
-            
+
             <table class="min-w-full divide-y divide-neutral-700">
                 <thead>
                     <tr class="text-neutral-500">
@@ -61,7 +64,7 @@
                         <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $client->siret }}</td>
                         <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $client->ville }}</td>
                         <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
-                            <a class="text-blue-600 hover:text-blue-700" href="#">Modifier</a>
+                            <a class="text-blue-600 hover:text-blue-700" href="{{ route('back.clients.show', ['client' => $client->id]) }}">Détail</a>
                         </td>
                     </tr>
                     @endforeach
@@ -69,16 +72,16 @@
             </table>
 
             {{ $clients->links() }}
-        
+
     </div>
-        
+
     </div>
-    
+
     <dialog id="addClient" class="w-96 h-fit rounded relative overflow-hidden p-8 space-y-4">
         <button onclick="addClient.close()" class="absolute right-5 top-5 p-2 rounded-full hover:bg-gray-400 hover:text-white transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>                  
+            </svg>
         </button>
 
         <h3 class="font-bold text-2xl">Ajouter un nouveau client</h3>
@@ -91,7 +94,7 @@
             </label>
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 ">N° de SIRET</span>
-                <input type="number" name="SIRET" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <input type="number" name="siret" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </label>
             <label class="inline-block w-full">
                 <span class="block mb-2 text-sm font-medium text-gray-900 ">Ville</span>

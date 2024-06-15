@@ -8,7 +8,7 @@
             <a href="{{ route('admin.projet.projet', ['projet' => $projet->id]) }}">{{ $projet->libelle }}</a>
         </h3>
         @if ($etape->facture)
-                <a class="col-start-1 justify-self-start flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white px-4 py-2" href="{{ route('admin.projet.etape.facturer', ['projet' => $projet->id, 'etape' => $etape->id]) }}">
+                <a class="col-start-1 justify-self-start flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white px-4 py-2" href="{{ route('back.projets.etape.facture.create-facture', ['projet' => $projet->id, 'etape' => $etape->id]) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -18,7 +18,7 @@
                     <span>Voir la facture</span>
                 </a>
         @elseif(!$etape->interventions->isEmpty())
-                <a class="col-start-1 justify-self-start flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white px-4 py-2" href="{{ route('admin.projet.etape.facturer', ['projet' => $projet->id, 'etape' => $etape->id]) }}">
+                <a class="col-start-1 justify-self-start flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white px-4 py-2" href="{{ route('back.projets.etape.facture.create-facture', ['projet' => $projet->id, 'etape' => $etape->id]) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -49,17 +49,18 @@
 
     <div class="min-w-full h-fit rounded-md border-2 border-neutral-700 bg-neutral-100">
 
-        <span class="px-5 mt-2 w-full flex flex-row justify-between items-center">
-            <h5 class="font-black text-2xl text-black">Interventions :</h5>
-            <button class="flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white ml-auto px-4 py-2" onclick="addStep.showModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
+        @if(!$etape->facture)
+            <span class="px-5 mt-2 w-full flex flex-row justify-between items-center">
+                <h5 class="font-black text-2xl text-black">Interventions :</h5>
+                <button class="flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white ml-auto px-4 py-2" onclick="addStep.showModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
 
-                <span>Ajouter une Intervention</span>
-            </button>
-        </span>
-
+                    <span>Ajouter une Intervention</span>
+                </button>
+            </span>
+        @endif
 
         <table class="min-w-full divide-y divide-neutral-700">
             <thead>
@@ -72,7 +73,7 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-neutral-200">
-                @if ($interventions->isEmpty())
+                @if ($etape->interventions->isEmpty())
                     <tr class="text-neutral-800">
                         <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">Aucune donnée</td>
                         <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">Aucune donnée</td>
@@ -81,7 +82,7 @@
                         <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">Aucune donnée</td>
                     </tr>
                 @else
-                    @foreach ($interventions as $intervention)
+                    @foreach ($etape->interventions as $intervention)
                         <tr class="text-neutral-800">
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->libelle }}
                             </td>
@@ -92,7 +93,7 @@
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->commentaire }}
                             </td>
                             <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">
-                                <a class="text-blue-500 underline" href="{{ route('admin.intervenant', ['intervenant' => $intervention->intervenant->id]) }}">
+                                <a class="text-blue-500 underline" href="{{ $intervention->intervenant->prestataire ? route('back.prestataires.show', ['prestataire' => $intervention->intervenant->id]) : route('back.salaries.show', ['salarie' => $intervention->intervenant->id]) }}">
                                     {{ $intervention->intervenant->prestataire ? $intervention->intervenant->getPrestataire->raison_sociale : $intervention->intervenant->prenom . ' ' . $intervention->intervenant->nom }}
                                 </a>
                             </td>
@@ -117,7 +118,7 @@
 
         <h3 class="font-bold text-2xl">Ajouter une Intervention</h3>
 
-        <form action="{{ route('admin.projet.etape.intervention.add', ['projet' => $projet->id, 'etape' => $etape->id]) }}"
+        <form action="{{ route('back.projets.etape.store-intervention', ['projet' => $projet->id, 'etape' => $etape->id]) }}"
             method="POST" class="w-full space-y-4 grid grid-cols-2 gap-2 p-2 overflow-y-scroll">
 
             @csrf
@@ -143,7 +144,7 @@
 
                 <select name="intervenant" id="intervenant" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5    dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" default>Sélectionner un intervenant</option>
-                    @foreach ($intervenantsDispo as $intervenant)
+                    @foreach ($intervenants as $intervenant)
                         <option value="{{ $intervenant->id }}">
                             @if($intervenant->prestataire)
                                 {{ $intervenant->getPrestataire->raison_sociale }} - Prestataire
