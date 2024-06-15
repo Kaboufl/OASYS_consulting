@@ -99,92 +99,9 @@ Route::name('back.')
     });
 });
 
-Route::name('admin.')
-->middleware(['auth', 'is-admin'])
-->prefix('admin')
-->group(function () {
-
-    Route::get('/', function () {
-        return redirect()->route('admin.dashboard');
-    });
-
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
-    Route::get('/clients', [ClientController::class, 'showAll'])->name('clients');
-    Route::post('/clients', [ClientController::class, 'store']);
-    Route::get('/client/{client}', [ClientController::class, 'show'])->name('client');
-
-    Route::get('/salaries', [SalarieController::class, 'showAll'])->name('salaries');
-    Route::post('/salaries', [SalarieController::class, 'store']);
-    Route::get('/salarie/{salarie}', [SalarieController::class, 'show'])->name('salarie');
-    Route::get('/intervenant/{intervenant}', [AdminController::class, 'showIntervenant'])->name('intervenant');
-
-    Route::get('/prestataires', [PrestataireController::class, 'showAll'])->name('prestataires');
-    Route::post('/prestataires', [PrestataireController::class, 'store']);
-    Route::get('/prestataire/{prestataire}', [PrestataireController::class, 'show'])->name('prestataire');
-    Route::get('/projets', [ProjetController::class, 'showAll'])->name('projets');
-    Route::post('/projets', [ProjetController::class, 'store']);
-    Route::name('projet.')->prefix('/projet')->group(function () {
-        Route::get('/{projet}', [ProjetController::class, 'show'])->name('projet');
-
-        Route::name('etape.')->prefix('{projet}/etape')->group(function () {
-            Route::get('/{etape}', [AdminController::class, 'showEtape'])->name('etape');
-            Route::post('/ajouter', [AdminController::class, 'addEtape'])->name('add');
-            Route::get('/{etape}/facture', [AdminController::class, 'addFacture'])->name('facturer');
-
-            Route::name('intervention.')->prefix('/intervention')->group(function () {
-                Route::post('/ajouter', [AdminController::class, 'addIntervention'])->name('add');
-            });
-            Route::name('facture.')->prefix('/facture')->group(function () {
-            });
-        });
-    });
-});
-
-Route::name('chef.')
-->middleware(['auth', 'is-chef'])
-->prefix('chefs')
-->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('chef.projets');
-    });
-
-    Route::get('/projets', [ProjetController::class, 'showByChef'])->name('projets');
-    Route::name('projet.')->prefix('/projets')->group(function () {
-        Route::get('/{projet}', [ChefProjetController::class, 'showProjet'])->name('projet');
-        Route::post('/{projet}', [ChefProjetController::class, 'editProjet'])->name('edit');
-
-        Route::name('etape.')->prefix('/etape')->group(function () {
-            Route::get('/{etape}', [ChefProjetController::class, 'showEtape'])->name('show');
-            Route::post('/ajouter', [ChefProjetController::class, 'addEtape'])->name('add');
-            Route::post('/intervention/ajouter', [ChefProjetController::class, 'addIntervention'])->name('intervention.add');
-
-            Route::name('facture.')->prefix('/facture')->group(function () {
-                Route::get('/ajouter', [ChefProjetController::class, 'addFacture'])->name('facturer');
-                Route::post('/ajouter', [ChefProjetController::class, 'storeFacture'])->name('add');
-            });
-        });
-    });
-});
-
-Route::name('intervenant.')
-->middleware(['auth', 'is-intervenant'])
-->prefix('/intervenant')->group(function () {
-    Route::get('/intervention', [IntervenantController::class, 'intervention'])->name('intervention');
-    Route::post('/intervention', [IntervenantController::class, 'updateIntervention'])->name('intervention.edit');
-});
-
-
-
-
 Route::prefix('login')->group(function () {
     Route::view('/', 'auth.login')->name('login');
     Route::post('/', [LoginController::class, 'login'])->name('login');
-});
-
-
-Route::get('test/{id}', function ($id) {
-    $intervenant = Intervenant::find($id);
-    dd($intervenant, empty($intervenant->chefDe()->first()));
 });
 
 Route::get('logout', function () {Auth::logout();return redirect('/');})->name('logout');
