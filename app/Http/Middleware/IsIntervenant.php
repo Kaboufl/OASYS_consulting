@@ -15,7 +15,7 @@ class IsIntervenant
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->intervention) {
+        if (!auth()->user()->interventions) {
             //return response('Pas chef de projet', 403);
             return redirect()->route('home');
         }

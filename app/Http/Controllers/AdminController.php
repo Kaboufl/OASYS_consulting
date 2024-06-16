@@ -20,18 +20,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    //
-    public $pagination;
-    public function __construct($pagination = 10) {
-        $this->pagination = $pagination;
-    }
-
     public function index() {
-        return view('admin.dashboard');
+        return view('admin-dashboard');
     }
 
     public function clients() {
-        $clients = Client::paginate($this->pagination);
+        $clients = Client::paginate($this::$pagination);
 
         $clients->withPath('/admin/clients');
 
@@ -56,7 +50,7 @@ class AdminController extends Controller
      * @return \Illuminate\Contracts\View\View
      */
     public function projets() {
-        $projets = Projet::with('etapes')->paginate($this->pagination);
+        $projets = Projet::with('etapes')->paginate($this::$pagination);
 
         $projets->withPath('/admin/projets');
 
@@ -78,7 +72,7 @@ class AdminController extends Controller
         $salaries = Intervenant::select('intervenants.*')->leftJoin('admins', 'intervenants.id', '=', 'admins.id_intervenant')
                                 ->whereNull('admins.id_intervenant')
                                 ->where('prestataire', false)
-                                ->paginate($this->pagination);
+                                ->paginate($this::$pagination);
         return view('admin.salaries', compact('salaries'));
     }
 
@@ -267,7 +261,7 @@ class AdminController extends Controller
 
         $etape->save();
 
-
+        dd($etape);
         return redirect()->route('admin.projet.etape.etape', ['projet' => $projet->id, 'etape' => $etape->id]);
     }
 

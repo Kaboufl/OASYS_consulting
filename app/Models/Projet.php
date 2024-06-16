@@ -13,7 +13,7 @@ class Projet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['libelle', 'statut', 'taux_horaire', 'id_domaine', 'id_chef_projet', 'id_client'];
+    protected $fillable = ['libelle', 'statut', 'taux_horaire'];
 
     public function client(): BelongsTo
     {
@@ -25,9 +25,9 @@ class Projet extends Model
         return $this->belongsTo(Domaine::class, 'id_domaine');
     }
 
-    public function chefProj(): HasOne
+    public function chefProj(): BelongsTo
     {
-        return $this->hasOne(Intervenant::class, 'id');
+        return $this->belongsTo(Intervenant::class, 'id_chef_projet');
     }
 
     public function etapes(): HasMany

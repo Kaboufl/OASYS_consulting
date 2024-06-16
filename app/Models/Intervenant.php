@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Intervenant extends Authenticatable
@@ -23,13 +24,13 @@ class Intervenant extends Authenticatable
         return $this->HasOne(Prestataire::class, 'id_intervenant');
     }
 
-    public function chefDe(): BelongsTo
+    public function chefDe(): HasMany
     {
-        return $this->belongsTo(Projet::class, 'id', 'id_chef_projet');
+        return $this->hasMany(Projet::class, 'id_chef_projet', 'id');
     }
 
-    public function intervention(): BelongsTo
+    public function interventions(): HasMany
     {
-        return $this->belongsTo(Intervention::class, 'id', 'id_intervenant');
+        return $this->hasMany(Intervention::class, 'id_intervenant', 'id');
     }
 }

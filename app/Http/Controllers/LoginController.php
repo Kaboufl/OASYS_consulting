@@ -19,20 +19,20 @@ class LoginController extends Controller
 
         if($attempt) {
             if (Auth::user()->admin) {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('back.admin.dashboard');
             }
-            if (Auth::user()->chefDe)
+            if (Auth::user()->chefDe->count())
             {
-                return redirect()->route('chef.projets');
+                return redirect()->route('back.projets.showAll');
             }
-            if (Auth::user()->intervention)
+            if (Auth::user()->interventions)
             {
-                return redirect()->route('intervenant.intervention');
+                return redirect()->route('back.intervenant.showAll');
             }
 
             return response('ok');
 
-            
+
 
         }
 

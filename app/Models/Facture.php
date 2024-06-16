@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Facture extends Model
 {
@@ -15,7 +17,8 @@ class Facture extends Model
         'date_facture',
     ];
 
-    public function etape() {
-        return $this->belongsTo(Etape::class, 'id_facture');
+    public function etape(): HasOne
+    {
+        return $this->hasOne(Etape::class, 'id', 'id_facture');
     }
 }

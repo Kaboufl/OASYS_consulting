@@ -5,13 +5,15 @@
 
     @include('partials.back.header')
 
-    @if(auth()->user()->admin)
+    {{-- @if(auth()->user()->admin()->count())
     @include('partials.back.admin.nav')
     @endif
-    
-    @if(auth()->user()->chefDe)
+
+    @if(auth()->user()->chefDe()->count())
     @include('partials.back.chef.nav')
-    @endif
+    @endif --}}
+
+    @include('partials.back.nav')
 
 
 

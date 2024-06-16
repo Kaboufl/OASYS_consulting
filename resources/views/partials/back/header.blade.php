@@ -1,8 +1,7 @@
 <header class="col-start-2 row-start-1 p-4 h-fit">
     <div class="w-full h-fit p-2 bg-slate-700 rounded-md flex flex-row justify-between items-center">
-        @php($title = explode('.', Route::currentRouteName()))
         <div class="ml-4">
-            <h1 class="m-0 text-white text-xl font-bold capitalize">{{ end($title) }}</h1>
+            <h1 class="m-0 text-white text-xl font-bold capitalize">@yield('title')</h1>
         </div>
 
         <div x-data="{

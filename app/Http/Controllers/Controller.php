@@ -9,4 +9,10 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    public static $pagination;
+    public function __construct($pagination = 10)
+    {
+        $this::$pagination = $pagination;
+    }
 }

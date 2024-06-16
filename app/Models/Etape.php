@@ -12,6 +12,8 @@ class Etape extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['libelle'];
+
     public function projet(): BelongsTo
     {
         return $this->belongsTo(Projet::class, 'id_projet');
@@ -22,8 +24,8 @@ class Etape extends Model
         return $this->hasMany(Intervention::class, 'id_etape');
     }
 
-    public function facture(): HasOne
+    public function facture(): BelongsTo
     {
-        return $this->hasOne(Facture::class, 'id', 'id_facture');
+        return $this->belongsTo(Facture::class, 'id_facture');
     }
 }
