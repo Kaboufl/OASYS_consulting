@@ -17,7 +17,7 @@
         @endif
     </div>
 
-    @dump($intervenant)
+    {{-- @dump($intervenant) --}}
 </div>
 
 @endsection
