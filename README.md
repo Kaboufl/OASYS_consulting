@@ -59,6 +59,8 @@ Pour faire ce site statique, j'ai choisi de partir sur une solution de type PHP,
 un projet. Une base de données MySQL assurera le stockage des informations de l'application, elle sera accédée par l'application via Eloquent, l'ORM de Laravel qui permet de créer des modèles
 et ainsi travailler sur la base de données en conservant une syntaxe de programmation orientée objet.
 
+![Architecture de l'application](/resources/docs/AAD%20OASYS.png)
+
 Le serveur de développement utilise Docker afin de minimiser l'impact de l'environnement système sur le fonctionnement de l'application. J'utilise l'image [Laravel Sail](https://laravel.com/docs/10.x/sail#installation)
 offrant un environnement de développement complet pour un projet Laravel. Le serveur de développement utilise Vite, qui permet une expérience de développement plus fluide grâce au Hot Module Replacement.
 
@@ -75,11 +77,11 @@ Le modèle conceptuel de données est réalisé à l'aide de l'outil [dbdiagram.
 ## Fonctionnalités et interfaces utilisateur
 
 L'interface utilisateur de l'administrateur est la plus complète de l'application, il a accès à :
-- Consultation, création, modification et suppression des clients
-- Consultation, création, modification et suppression des projets
-- Consultation, création, modification et suppression des étapes
-- Consultation, création, modification et suppression des interventions
-- Consultation, création, modification et suppression des intervenants (salariés / prestataires externes)
+- Consultation, création, modification des clients
+- Consultation, création, modification des projets
+- Consultation, création, modification des étapes
+- Consultation, création, modification des interventions
+- Consultation, création, modification des intervenants (salariés / prestataires externes)
 - Consultations de statistiques sur les projets
 
 Celle du chef de projet permet :
