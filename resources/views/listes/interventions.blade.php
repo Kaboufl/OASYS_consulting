@@ -35,7 +35,7 @@
                         <td class="px-5 py-4 text-sm font-medium whitespace-nowrap">{{ $intervention->libelle }}</td>
                         <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $intervention->date_debut_intervention }}</td>
                         <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $intervention->date_fin_intervention }}</td>
-                        <td class="px-5 py-4 text-sm whitespace-nowrap">{{ $intervention->commentaire }}</td>
+                        <td class="px-5 py-4 text-sm whitespace-nowrap ml-auto">{{ $intervention->commentaire }}</td>
                         <td class="px-5 py-4 text-sm font-medium text-right whitespace-nowrap">
                             <a class="text-blue-600 hover:text-blue-700" href="{{ route('back.intervenant.show', ['intervention' => $intervention]) }}">Détail</a>
                         </td>
