@@ -5,7 +5,7 @@
         <h1 class="col-start-1 font-black text-2xl text-black">Etape : {{ $etape->libelle }}</h1>
         <h3 class="col-start-1 flex flex-row gap-2 font-bold text-black">
             <span>Projet :</span>
-            <a href="{{ route('admin.projet.projet', ['projet' => $projet->id]) }}">{{ $projet->libelle }}</a>
+            <a href="{{ route('back.projets.show', ['projet' => $projet->id]) }}">{{ $projet->libelle }}</a>
         </h3>
         @if ($etape->facture)
                 <a class="col-start-1 justify-self-start flex flex-row align-center gap-2 rounded-full bg-cyan-600 text-white px-4 py-2" href="{{ route('back.projets.etape.facture.create-facture', ['projet' => $projet->id, 'etape' => $etape->id]) }}">
