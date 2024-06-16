@@ -13,7 +13,6 @@ Fonctionnalités clés de l'application :
 - Gestion centralisée des projets : Création, modification, suppression et consultation des projets, avec suivi des étapes et des interventions.
 - Affectation des ressources : Assignation des chefs de projet et des intervenants aux projets et aux étapes.
 - Suivi des interventions : Enregistrement des dates de début et de fin, des commentaires et des pièces jointes pour chaque intervention.
-- Statistiques et reporting : Consultation de tableaux de bord et de rapports pour analyser les données des projets et suivre leur avancement.
 - Interfaces utilisateur dédiées : Des interfaces ergonomiques et intuitives conçues pour répondre aux besoins spécifiques de chaque type d'utilisateur.
 
 ## Interprétation du cahier des charges
